@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import Sinon from 'sinon';
 import CarModel from '../../../src/Models/CarModel';
+import CarService from '../../../src/Services/CarService';
 import { createdCarResponse } from '../mocks';
 
 describe('CarService', function () {
@@ -12,7 +13,7 @@ describe('CarService', function () {
       .resolves(createdCarResponse);
 
     const resultService = await CarService.prototype.create(createdCarResponse); 
-    const resultDomain = CarService.prototype.newCarDomain(createdCarResponse); 
+    const resultDomain = await CarService.prototype.newCarDomain(createdCarResponse); 
     
     expect(resultService).to.deep.equal(createdCarResponse);
     expect(resultDomain).to.deep.equal(createdCarResponse);
