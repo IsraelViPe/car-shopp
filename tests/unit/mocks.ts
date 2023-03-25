@@ -42,3 +42,5 @@ export const carList: ICar[] = [
     seatsQty: 5,
   },
 ];
+export const CAR_ID = '634852326b35b59438fbea2f';
+export const INCORRECT_CAR_ID = '634852326b35b59438fbea24';

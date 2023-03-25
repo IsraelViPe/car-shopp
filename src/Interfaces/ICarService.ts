@@ -5,4 +5,5 @@ export default interface ICarService {
   newCarDomain(car: ICar): Car | ICar | null
   create(car: ICar): Promise<Car | ICar | null >
   findAll(): Promise <ICar[] | null> 
+  findById(id: string): Promise<ICar | null>
 }

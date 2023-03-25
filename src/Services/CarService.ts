@@ -1,10 +1,11 @@
+import { isValidObjectId } from 'mongoose';
 import Car from '../Domains/Car';
 import ICar from '../Interfaces/ICar';
 import ICarService from '../Interfaces/ICarService';
 import CarModel from '../Models/CarModel';
 
 export default class CarService implements ICarService {
-  constructor(private model: CarModel = new CarModel()) {}
+  constructor(private model: CarModel = new CarModel()) {} 
 
   newCarDomain(car: ICar | null): Car | ICar | null {
     if (car) {
@@ -24,5 +25,16 @@ export default class CarService implements ICarService {
   async findAll(): Promise <ICar[] | null> {
     const carList = await this.model.find();
     return carList;
+  }
+
+  async findById(id: string): Promise<ICar | null> {
+    if (!isValidObjectId(id)) {
+      throw new Error('Invalid mongo id');
+    }
+    const car = await this.model.findById(id);
+    if (!car) {
+      throw new Error('Car not Found');
+    }
+    return car;
   }
 }
