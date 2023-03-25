@@ -1,10 +1,13 @@
 import { expect } from 'chai';
+import { Model } from 'mongoose';
 import Sinon from 'sinon';
 import CarModel from '../../../src/Models/CarModel';
 import CarService from '../../../src/Services/CarService';
-import { carList, CAR_ID, createdCarResponse, INCORRECT_CAR_ID } from '../mocks';
+import { carList, CAR_ID, createdCarResponse, INCORRECT_CAR_ID, INVALID_ID } from '../mocks';
 
 describe('CarService', function () {
+  const carService = new CarService();
+
   afterEach(function () {
     Sinon.restore();
   });
@@ -43,11 +46,23 @@ describe('CarService', function () {
   it(
     'deve retornar uma exceção do tipo "Car not found" ao buscar um carro inexistente', 
     async function () {
-      Sinon.stub(CarModel.prototype, 'findById').resolves(null);
+      Sinon.stub(Model, 'findById').resolves(null);
       try {
-        await CarService.prototype.findById(INCORRECT_CAR_ID);
+        await carService.findById(INCORRECT_CAR_ID);
       } catch (e) {
-        expect((e as Error).message).to.be.equal('Car not ');
+        expect((e as Error).message).to.be.equal('Car not Found');
+      }
+    },
+  );
+  it(
+    'deve retornar uma exceção do tipo  "Invalid mongo id" ao buscar um carro com id inválido',
+    async function () {
+      Sinon.stub(Model, 'findById').resolves(null);
+
+      try {
+        await carService.findById(INVALID_ID);
+      } catch (e) {
+        expect((e as Error).message).to.be.equal('Invalid mongo id');
       }
     },
   );

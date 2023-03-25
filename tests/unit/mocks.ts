@@ -44,3 +44,4 @@ export const carList: ICar[] = [
 ];
 export const CAR_ID = '634852326b35b59438fbea2f';
 export const INCORRECT_CAR_ID = '634852326b35b59438fbea24';
+export const INVALID_ID = '9999';
