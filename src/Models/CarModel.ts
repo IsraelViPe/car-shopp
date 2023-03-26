@@ -1,4 +1,4 @@
-import { ObjectId, Schema } from 'mongoose';
+import { Schema } from 'mongoose';
 import ICar from '../Interfaces/ICar';
 import ODM from './ODM';
 
@@ -22,7 +22,9 @@ export default class CarModel extends ODM<ICar> {
   }
 
   public async find(): Promise<ICar []> {
-    return this.model.find();
+    return this.model.find({}, {
+      __v: 0,
+    });
   }
 
   public async findById(id: string): Promise<ICar | null> {

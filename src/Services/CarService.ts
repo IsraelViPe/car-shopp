@@ -3,18 +3,19 @@ import Car from '../Domains/Car';
 import ICar from '../Interfaces/ICar';
 import ICarService from '../Interfaces/ICarService';
 import CarModel from '../Models/CarModel';
+import customErro from '../Utils/customError';
 
 export default class CarService implements ICarService {
   constructor(private model: CarModel = new CarModel()) {} 
 
-  newCarDomain(car: ICar | null): Car | ICar | null {
+  newCarDomain(car: ICar | null): Car | null {
     if (car) {
       return new Car(car);
     }
     return null;
   }
 
-  async create(carInfo: ICar): Promise <ICar | Car | null> {
+  async create(carInfo: ICar): Promise < Car | null> {
     const newCarInfo = { ...carInfo };
     if (!newCarInfo.status) newCarInfo.status = false;
 
@@ -22,19 +23,21 @@ export default class CarService implements ICarService {
     return this.newCarDomain(newCar); 
   }
 
-  async findAll(): Promise <ICar[] | null> {
+  async findAll(): Promise < (Car | null)[]> {
     const carList = await this.model.find();
-    return carList;
+    const carDomainList = carList.map((car) => this.newCarDomain(car));
+    return carDomainList;
   }
 
-  async findById(id: string): Promise<ICar | null> {
+  async findById(id: string): Promise<(Car | null)> {
     if (!isValidObjectId(id)) {
-      throw new Error('Invalid mongo id');
+      customErro('Invalid mongo id', 422);
     }
     const car = await this.model.findById(id);
     if (!car) {
-      throw new Error('Car not Found');
+      customErro('Car not found', 404);
     }
-    return car;
+
+    return this.newCarDomain(car);
   }
 }

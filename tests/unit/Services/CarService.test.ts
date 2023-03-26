@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { Model } from 'mongoose';
 import Sinon from 'sinon';
-import CarModel from '../../../src/Models/CarModel';
 import CarService from '../../../src/Services/CarService';
 import { carList, CAR_ID, createdCarResponse, INCORRECT_CAR_ID, INVALID_ID } from '../mocks';
 
@@ -12,33 +11,25 @@ describe('CarService', function () {
     Sinon.restore();
   });
   it('se a camda Service cria uma nova instância de Dominio Car corretamente', async function () {
-    Sinon.stub(CarModel.prototype, 'create').resolves(createdCarResponse);
-    const serviceStub = Sinon.stub(CarService.prototype, 'create')
-      .resolves(createdCarResponse);
-    const domainStub = Sinon.stub(CarService.prototype, 'newCarDomain')
-      .resolves(createdCarResponse);
-
-    const resultService = await CarService.prototype.create(createdCarResponse); 
-    const resultDomain = await CarService.prototype.newCarDomain(createdCarResponse); 
+    Sinon.stub(Model, 'create').resolves(createdCarResponse);
+  
+    const resultService = await carService.create(createdCarResponse); 
     
     expect(resultService).to.deep.equal(createdCarResponse);
-    expect(resultDomain).to.deep.equal(createdCarResponse);
-    expect(domainStub.calledOnceWith(createdCarResponse)).to.be.equal(true);
-    expect(serviceStub.calledOnceWith(createdCarResponse)).to.be.equal(true);
   });
 
   it('deve trazer uma lista com todos os carros', async function () {
-    Sinon.stub(CarService.prototype, 'findAll').resolves(carList);
+    Sinon.stub(Model, 'find').resolves(carList);
+  
+    const result = await carService.findAll();
 
-    const result = await CarService.prototype.findAll();
-
-    expect(result).to.be.equal(carList);
+    expect(result).to.be.deep.equal(carList);
     expect(result?.length).to.be.equal(2);
   });
   it('deve buscar um carro pelo id', async function () {
-    const serviceStub = Sinon.stub(CarService.prototype, 'findById').resolves(carList[0]);
+    const serviceStub = Sinon.stub(Model, 'findById').resolves(carList[0]);
 
-    const result = await CarService.prototype.findById(CAR_ID);
+    const result = await carService.findById(CAR_ID);
 
     expect(result).to.be.deep.equal(carList[0]);
     expect(serviceStub.calledOnceWith(CAR_ID)).to.be.equal(true);

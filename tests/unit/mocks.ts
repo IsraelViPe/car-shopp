@@ -1,3 +1,4 @@
+import Car from '../../src/Domains/Car';
 import ICar from '../../src/Interfaces/ICar';
 
 export const bodyRequest: ICar = {
@@ -10,7 +11,7 @@ export const bodyRequest: ICar = {
   seatsQty: 5,
 };
     
-export const createdCarResponse: ICar = {
+export const createdCarResponse = {
   id: '6348513f34c397abcad040b2',
   model: 'Marea',
   year: 2002,
@@ -21,7 +22,7 @@ export const createdCarResponse: ICar = {
   seatsQty: 5,
 };
 
-export const carList: ICar[] = [
+export const carList = [
   {
     id: '634852326b35b59438fbea2f',
     model: 'Marea',
@@ -37,6 +38,7 @@ export const carList: ICar[] = [
     model: 'Tempra',
     year: 1995,
     color: 'Black',
+    status: false,
     buyValue: 39,
     doorsQty: 2,
     seatsQty: 5,
