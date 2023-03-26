@@ -1,6 +1,6 @@
 import ICar from '../../src/Interfaces/ICar';
 
-export const bodyRequest: ICar = {
+export const bodyRequestCar: ICar = {
   model: 'Marea',
   year: 2002,
   color: 'Black',
@@ -43,6 +43,27 @@ export const carList = [
     seatsQty: 5,
   },
 ];
+
+export const cycleMock = {
+  id: '6348513f34c397abcad040b2',
+  model: 'Honda Cb 600f Hornet',
+  year: 2005,
+  color: 'Yellow',
+  status: true,
+  buyValue: 30.000,
+  category: 'Street',
+  engineCapacity: 600,
+};
+
+export const bodyRequestCycle = {
+  model: 'Honda Cb 600f Hornet',
+  year: 2005,
+  color: 'Yellow',
+  status: true,
+  buyValue: 30.000,
+  category: 'Street',
+  engineCapacity: 600,
+};
 
 export const CAR_ID = '634852326b35b59438fbea2f';
 export const INCORRECT_CAR_ID = '634852326b35b59438fbea24';

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { Model } from 'mongoose';
 import Sinon from 'sinon';
 import CarModel from '../../../src/Models/CarModel';
-import { bodyRequest, carList, CAR_ID, carMock } from '../mocks';
+import { bodyRequestCar, carList, CAR_ID, carMock } from '../mocks';
 
 describe('Testando camada de ODM CarModel', function () {
   const carModel = new CarModel();
@@ -16,11 +16,11 @@ describe('Testando camada de ODM CarModel', function () {
     Sinon.stub(Model, 'create').resolves(carMock);
     
     // Action
-    const result = await CarModel.prototype.create(bodyRequest);
+    const result = await CarModel.prototype.create(bodyRequestCar);
     // Assertion
 
     expect(result).to.deep.equal(carMock);
-    expect(createStub.calledOnceWith(bodyRequest)).to.be.equal(true);
+    expect(createStub.calledOnceWith(bodyRequestCar)).to.be.equal(true);
   });
 
   it('é possível buscar a lista de carros no collection cars', async function () {
@@ -41,7 +41,7 @@ describe('Testando camada de ODM CarModel', function () {
   it('é possível localizar e alterar os dados de um carro', async function () {
     Sinon.stub(Model, 'findByIdAndUpdate').resolves(carMock);
 
-    const result = await carModel.update(CAR_ID, bodyRequest);
+    const result = await carModel.update(CAR_ID, bodyRequestCar);
 
     expect(result).to.be.equal(carMock);
   });
