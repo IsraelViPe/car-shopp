@@ -30,4 +30,9 @@ export default class CarModel extends ODM<ICar> {
   public async findById(id: string): Promise<ICar | null> {
     return this.model.findById(id);
   }
+
+  public async update(id: string, body: ICar): Promise<ICar | null> {
+    const result = this.model.findByIdAndUpdate(id, { ...body }, { new: true });
+    return result;
+  }
 }

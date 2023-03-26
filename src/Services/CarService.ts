@@ -40,4 +40,15 @@ export default class CarService implements ICarService {
 
     return this.newCarDomain(car);
   }
+
+  async update(id: string, body: ICar): Promise<(Car | null)> {
+    if (!isValidObjectId(id)) {
+      customErro('Invalid mongo id', 422);
+    }
+    const carUpdate = await this.model.update(id, body);
+    if (!carUpdate) {
+      customErro('Car not found', 404);
+    }
+    return this.newCarDomain(carUpdate);
+  }
 }

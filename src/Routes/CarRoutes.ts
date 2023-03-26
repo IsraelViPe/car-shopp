@@ -10,5 +10,6 @@ const carRoutes = Router();
 carRoutes.post('/cars', (req, res, next) => carController.create(req, res, next));
 carRoutes.get('/cars', (req, res, next) => carController.findAll(req, res, next));
 carRoutes.get('/cars/:id', (req, res, next) => carController.findById(req, res, next));
+carRoutes.put('/cars/:id', (req, res, next) => carController.update(req, res, next));
 
 export default carRoutes;

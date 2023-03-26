@@ -6,4 +6,5 @@ export default interface ICarService {
   create(car: ICar): Promise<Car | null >
   findAll(): Promise <(Car | null)[]>
   findById(id: string): Promise<(Car | null)>
+  update(id: string, body: ICar): Promise<(Car | null)> 
 }

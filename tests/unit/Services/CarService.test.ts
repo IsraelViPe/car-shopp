@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { Model } from 'mongoose';
 import Sinon from 'sinon';
 import CarService from '../../../src/Services/CarService';
-import { carList, CAR_ID, createdCarResponse, INCORRECT_CAR_ID, INVALID_ID } from '../mocks';
+import { carList, CAR_ID, carMock, INCORRECT_CAR_ID, INVALID_ID, bodyRequest } from '../mocks';
 
 describe('CarService', function () {
   const carService = new CarService();
@@ -11,11 +11,11 @@ describe('CarService', function () {
     Sinon.restore();
   });
   it('se a camda Service cria uma nova instância de Dominio Car corretamente', async function () {
-    Sinon.stub(Model, 'create').resolves(createdCarResponse);
+    Sinon.stub(Model, 'create').resolves(carMock);
   
-    const resultService = await carService.create(createdCarResponse); 
+    const resultService = await carService.create(carMock); 
     
-    expect(resultService).to.deep.equal(createdCarResponse);
+    expect(resultService).to.deep.equal(carMock);
   });
 
   it('deve trazer uma lista com todos os carros', async function () {
@@ -41,7 +41,7 @@ describe('CarService', function () {
       try {
         await carService.findById(INCORRECT_CAR_ID);
       } catch (e) {
-        expect((e as Error).message).to.be.equal('Car not Found');
+        expect((e as Error).message).to.be.equal('Car not found');
       }
     },
   );
@@ -57,4 +57,11 @@ describe('CarService', function () {
       }
     },
   );
+  it('deve localizar e atualizar um carro pelo id', async function () {
+    Sinon.stub(Model, 'findByIdAndUpdate').resolves(carMock);
+
+    const result = await carService.update(CAR_ID, bodyRequest);
+
+    expect(result).to.be.deep.equal(carMock);
+  });
 });

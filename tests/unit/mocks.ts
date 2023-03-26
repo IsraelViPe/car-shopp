@@ -1,4 +1,3 @@
-import Car from '../../src/Domains/Car';
 import ICar from '../../src/Interfaces/ICar';
 
 export const bodyRequest: ICar = {
@@ -11,7 +10,7 @@ export const bodyRequest: ICar = {
   seatsQty: 5,
 };
     
-export const createdCarResponse = {
+export const carMock = {
   id: '6348513f34c397abcad040b2',
   model: 'Marea',
   year: 2002,
@@ -44,6 +43,7 @@ export const carList = [
     seatsQty: 5,
   },
 ];
+
 export const CAR_ID = '634852326b35b59438fbea2f';
 export const INCORRECT_CAR_ID = '634852326b35b59438fbea24';
 export const INVALID_ID = '9999';
