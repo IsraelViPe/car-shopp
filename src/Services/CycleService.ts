@@ -35,7 +35,7 @@ export default class CycleService implements IService<IMotorcycle, Motorcycle> {
     }
     const cycle = await this.model.findById(id);
     if (!cycle) {
-      customErro('Car not found', 404);
+      customErro('Motorcycle not found', 404);
     }
 
     return this.newDomain(cycle);
@@ -47,7 +47,7 @@ export default class CycleService implements IService<IMotorcycle, Motorcycle> {
     }
     const cycleUpdate = await this.model.update(id, body);
     if (!cycleUpdate) {
-      customErro('Car not found', 404);
+      customErro('Motorcycle not found', 404);
     }
     return this.newDomain(cycleUpdate);
   }
