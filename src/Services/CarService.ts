@@ -1,14 +1,14 @@
 import { isValidObjectId } from 'mongoose';
 import Car from '../Domains/Car';
 import ICar from '../Interfaces/ICar';
-import ICarService from '../Interfaces/ICarService';
+import IService from '../Interfaces/IService';
 import CarModel from '../Models/CarModel';
 import customErro from '../Utils/customError';
 
-export default class CarService implements ICarService {
+export default class CarService implements IService<ICar, Car> {
   constructor(private model: CarModel = new CarModel()) {} 
 
-  newCarDomain(car: ICar | null): Car | null {
+  newDomain(car: ICar | null): Car | null {
     if (car) {
       return new Car(car);
     }
@@ -20,12 +20,12 @@ export default class CarService implements ICarService {
     if (!newCarInfo.status) newCarInfo.status = false;
 
     const newCar: ICar = await this.model.create(newCarInfo);
-    return this.newCarDomain(newCar); 
+    return this.newDomain(newCar); 
   }
 
   async findAll(): Promise < (Car | null)[]> {
     const carList = await this.model.find();
-    const carDomainList = carList.map((car) => this.newCarDomain(car));
+    const carDomainList = carList.map((car) => this.newDomain(car));
     return carDomainList;
   }
 
@@ -38,7 +38,7 @@ export default class CarService implements ICarService {
       customErro('Car not found', 404);
     }
 
-    return this.newCarDomain(car);
+    return this.newDomain(car);
   }
 
   async update(id: string, body: ICar): Promise<(Car | null)> {
@@ -49,6 +49,6 @@ export default class CarService implements ICarService {
     if (!carUpdate) {
       customErro('Car not found', 404);
     }
-    return this.newCarDomain(carUpdate);
+    return this.newDomain(carUpdate);
   }
 }

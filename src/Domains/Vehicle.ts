@@ -1,7 +1,7 @@
 import IVehicle from '../Interfaces/IVehicle';
 
 export default abstract class Vehicle {
-  readonly id?: string;
+  protected id: string | undefined;
   protected model: string;
   protected year: number;
   protected color: string;
@@ -9,6 +9,7 @@ export default abstract class Vehicle {
   protected buyValue: number;
 
   constructor(obj: IVehicle) {
+    this.id = obj.id;
     this.model = obj.model;
     this.year = obj.year;
     this.color = obj.color;

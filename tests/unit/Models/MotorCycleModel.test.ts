@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import { Model } from 'mongoose';
 import Sinon from 'sinon';
+import CycleModel from '../../../src/Models/CycleModel';
 import { bodyRequestCycle, cycleMock } from '../mocks';
 
 describe('Testando camada de ODM MotorcycleModel', function () {
-  const cycleModel = new motorCycleModel();
+  const cycleModel = new CycleModel();
 
   afterEach(function () {
     Sinon.restore();

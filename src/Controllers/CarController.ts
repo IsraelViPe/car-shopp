@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import ICarService from '../Interfaces/ICarService';
+import Car from '../Domains/Car';
+import ICar from '../Interfaces/ICar';
+import IService from '../Interfaces/IService';
 
 export default class CarController {
-  private service: ICarService;
+  private service: IService <ICar, Car>;
 
-  constructor(service: ICarService) {
+  constructor(service: IService <ICar, Car>) {
     this.service = service;
   }
 
