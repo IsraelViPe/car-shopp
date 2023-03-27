@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { Model } from 'mongoose';
 import Sinon from 'sinon';
 import CarService from '../../../src/Services/CarService';
-import { carList, CAR_ID, carMock, INCORRECT_CAR_ID, INVALID_ID, bodyRequestCar } from '../mocks';
+import { carList, CAR_ID, carMock, INCORRECT_ID, INVALID_ID, bodyRequestCar } from '../mocks';
 
 describe('CarService', function () {
   const carService = new CarService();
@@ -45,7 +45,7 @@ describe('CarService', function () {
       async function () {
         Sinon.stub(Model, 'findById').resolves(null);
         try {
-          await carService.findById(INCORRECT_CAR_ID);
+          await carService.findById(INCORRECT_ID);
         } catch (e) {
           expect((e as Error).message).to.be.equal('Car not found');
         }
@@ -80,7 +80,7 @@ describe('CarService', function () {
     async function () {
       Sinon.stub(Model, 'findByIdAndUpdate').resolves(null);
       try {
-        await carService.update(INCORRECT_CAR_ID, bodyRequestCar);
+        await carService.update(INCORRECT_ID, bodyRequestCar);
       } catch (e) {
         expect((e as Error).message).to.be.equal('Car not found');
       }
