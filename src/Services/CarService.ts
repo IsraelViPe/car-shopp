@@ -3,7 +3,7 @@ import Car from '../Domains/Car';
 import ICar from '../Interfaces/ICar';
 import IService from '../Interfaces/IService';
 import CarModel from '../Models/CarModel';
-import customErro from '../Utils/customError';
+import customErro, { CAR_NOT_FOUND, INVALID_ID } from '../Utils/customError';
 
 export default class CarService implements IService<ICar, Car> {
   constructor(private model: CarModel = new CarModel()) {} 
@@ -31,11 +31,11 @@ export default class CarService implements IService<ICar, Car> {
 
   async findById(id: string): Promise<(Car | null)> {
     if (!isValidObjectId(id)) {
-      customErro('Invalid mongo id', 422);
+      customErro(INVALID_ID, 422);
     }
     const car = await this.model.findById(id);
     if (!car) {
-      customErro('Car not found', 404);
+      customErro(CAR_NOT_FOUND, 404);
     }
 
     return this.newDomain(car);
@@ -43,12 +43,23 @@ export default class CarService implements IService<ICar, Car> {
 
   async update(id: string, body: ICar): Promise<(Car | null)> {
     if (!isValidObjectId(id)) {
-      customErro('Invalid mongo id', 422);
+      customErro(INVALID_ID, 422);
     }
     const carUpdate = await this.model.update(id, body);
     if (!carUpdate) {
-      customErro('Car not found', 404);
+      customErro(CAR_NOT_FOUND, 404);
     }
     return this.newDomain(carUpdate);
+  }
+
+  async delete(id: string): Promise<(ICar | null)> {
+    if (!isValidObjectId(id)) {
+      customErro(INVALID_ID, 422);
+    }
+    const result = await this.model.delete(id);
+    if (!result) {
+      customErro(CAR_NOT_FOUND, 404);
+    }
+    return result;
   }
 }

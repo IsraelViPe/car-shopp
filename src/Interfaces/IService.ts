@@ -4,4 +4,5 @@ export default interface IService <I, D> {
   findAll(): Promise <(D | null)[]>
   findById(id: string): Promise<(D | null)>
   update(id: string, body: I): Promise<(D | null)> 
+  delete(id: string): Promise<(I | null)>
 }

@@ -3,7 +3,7 @@ import Motorcycle from '../Domains/Motorcycle';
 import IService from '../Interfaces/IService';
 import IMotorcycle from '../Interfaces/IMotorcycle';
 import CycleModel from '../Models/CycleModel';
-import customErro from '../Utils/customError';
+import customErro, { CYCLE_NOT_FOUND, INVALID_ID } from '../Utils/customError';
 
 export default class CycleService implements IService<IMotorcycle, Motorcycle> {
   constructor(private model: CycleModel = new CycleModel()) {}
@@ -31,11 +31,11 @@ export default class CycleService implements IService<IMotorcycle, Motorcycle> {
 
   async findById(id: string): Promise<(Motorcycle | null)> {
     if (!isValidObjectId(id)) {
-      customErro('Invalid mongo id', 422);
+      customErro(INVALID_ID, 422);
     }
     const cycle = await this.model.findById(id);
     if (!cycle) {
-      customErro('Motorcycle not found', 404);
+      customErro(CYCLE_NOT_FOUND, 404);
     }
 
     return this.newDomain(cycle);
@@ -43,12 +43,23 @@ export default class CycleService implements IService<IMotorcycle, Motorcycle> {
 
   async update(id: string, body: IMotorcycle): Promise<(Motorcycle | null)> {
     if (!isValidObjectId(id)) {
-      customErro('Invalid mongo id', 422);
+      customErro(INVALID_ID, 422);
     }
     const cycleUpdate = await this.model.update(id, body);
     if (!cycleUpdate) {
       customErro('Motorcycle not found', 404);
     }
     return this.newDomain(cycleUpdate);
+  }
+
+  async delete(id: string): Promise<(IMotorcycle | null)> {
+    if (!isValidObjectId(id)) {
+      customErro(INVALID_ID, 422);
+    }
+    const result = await this.model.delete(id);
+    if (!result) {
+      customErro(CYCLE_NOT_FOUND, 404);
+    }
+    return result;
   }
 }

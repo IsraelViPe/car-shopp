@@ -28,4 +28,9 @@ export default abstract class AbstractODM<T> {
     const result = this.model.findByIdAndUpdate(id, body, { new: true });
     return result;
   }
+
+  public async delete(id: string): Promise< T | null> {
+    const result = this.model.findByIdAndDelete(id);
+    return result;
+  }
 }
